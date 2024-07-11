@@ -744,7 +744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &118830032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1488,7 +1488,6 @@ MonoBehaviour:
   MouseClicking:
     m_PersistentCalls:
       m_Calls: []
-  highlightMaterial: {fileID: 2100000, guid: d3d9e1c9552c31f4f8524ae9fef0416e, type: 2}
 --- !u!135 &288365288
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4733,7 +4732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &1148550385
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -6602,7 +6601,7 @@ Transform:
   m_GameObject: {fileID: 1592125959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.33, y: -2.2, z: -1.41}
+  m_LocalPosition: {x: -1.33, y: 0, z: -1.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

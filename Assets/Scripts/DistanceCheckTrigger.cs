@@ -1,0 +1,49 @@
+using UnityEngine;
+
+public class DistanceCheckTrigger : MonoBehaviour
+{
+    public GameObject videoSphere;
+    public Transform playerTransform;
+    public float triggerDistance = 5f; // Adjust this distance as needed
+
+    private bool playerInside;
+
+    void Start()
+    {
+        // Ensure the video sphere starts with its mesh renderer disabled
+        videoSphere.GetComponent<MeshRenderer>().enabled = false;
+        playerInside = true; // Player starts inside the trigger zone
+        Debug.Log("player is in place");
+
+    }
+
+    void Update()
+    {
+        // Calculate the distance between player and trigger zone center
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+        // Check if player moves beyond the trigger distance
+        if (distanceToPlayer > triggerDistance)
+        {
+            if (playerInside)
+            {
+                // Player has moved outside the trigger zone
+                videoSphere.GetComponent<MeshRenderer>().enabled = true;
+                playerInside = false;
+                Debug.Log("player is outside");
+
+            }
+        }
+        else
+        {
+            if (!playerInside)
+            {
+                // Player has moved back inside the trigger zone
+                videoSphere.GetComponent<MeshRenderer>().enabled = false;
+                playerInside = true;
+                Debug.Log("player is in place");
+
+            }
+        }
+    }
+}

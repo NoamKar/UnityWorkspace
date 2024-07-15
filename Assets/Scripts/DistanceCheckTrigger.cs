@@ -1,10 +1,11 @@
 using UnityEngine;
-
 public class DistanceCheckTrigger : MonoBehaviour
 {
     public GameObject videoSphere;
     public Transform playerTransform;
     public float triggerDistance = 5f; // Adjust this distance as needed
+
+    public GameObject[] objectsToDisable; // Array of objects to disable meshes
 
     private bool playerInside;
 
@@ -14,6 +15,7 @@ public class DistanceCheckTrigger : MonoBehaviour
         videoSphere.GetComponent<MeshRenderer>().enabled = false;
         playerInside = true; // Player starts inside the trigger zone
         Debug.Log("player is in place");
+        
 
     }
 
@@ -23,13 +25,17 @@ public class DistanceCheckTrigger : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
         // Check if player moves beyond the trigger distance
-        if (distanceToPlayer > triggerDistance)
+        if (Mathf.Abs(distanceToPlayer) > triggerDistance)
         {
             if (playerInside)
             {
                 // Player has moved outside the trigger zone
                 videoSphere.GetComponent<MeshRenderer>().enabled = true;
                 playerInside = false;
+                foreach (GameObject obj in objectsToDisable)
+                {
+                    obj.SetActive(false);
+                }
                 Debug.Log("player is outside");
 
             }
@@ -41,6 +47,10 @@ public class DistanceCheckTrigger : MonoBehaviour
                 // Player has moved back inside the trigger zone
                 videoSphere.GetComponent<MeshRenderer>().enabled = false;
                 playerInside = true;
+                foreach (GameObject obj in objectsToDisable)
+                {
+                    obj.SetActive(true);
+                }
                 Debug.Log("player is in place");
 
             }

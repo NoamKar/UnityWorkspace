@@ -2,8 +2,10 @@ using UnityEngine;
 public class DistanceCheckTrigger : MonoBehaviour
 {
     public GameObject videoSphere;
+    public AlphaTweening videoAlphaTweening;
     public Transform playerTransform;
     public float triggerDistance = 5f; // Adjust this distance as needed
+    public ParticleSystem transitionEffect;
 
     public GameObject[] objectsToDisable; // Array of objects to disable meshes
 
@@ -12,7 +14,7 @@ public class DistanceCheckTrigger : MonoBehaviour
     void Start()
     {
         // Ensure the video sphere starts with its mesh renderer disabled
-        videoSphere.GetComponent<MeshRenderer>().enabled = false;
+       // videoSphere.GetComponent<MeshRenderer>().enabled = false;
         playerInside = true; // Player starts inside the trigger zone
         Debug.Log("player is in place");
         
@@ -30,8 +32,10 @@ public class DistanceCheckTrigger : MonoBehaviour
             if (playerInside)
             {
                 // Player has moved outside the trigger zone
-                videoSphere.GetComponent<MeshRenderer>().enabled = true;
+           //     videoSphere.GetComponent<MeshRenderer>().enabled = true;
+                videoAlphaTweening.SwitchOn();
                 playerInside = false;
+
                 foreach (GameObject obj in objectsToDisable)
                 {
                     obj.SetActive(false);
@@ -45,7 +49,8 @@ public class DistanceCheckTrigger : MonoBehaviour
             if (!playerInside)
             {
                 // Player has moved back inside the trigger zone
-                videoSphere.GetComponent<MeshRenderer>().enabled = false;
+              //  videoSphere.GetComponent<MeshRenderer>().enabled = false;
+                videoAlphaTweening.SwitchOff();
                 playerInside = true;
                 foreach (GameObject obj in objectsToDisable)
                 {

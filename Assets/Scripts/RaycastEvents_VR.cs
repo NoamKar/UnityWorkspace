@@ -1,85 +1,98 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class RaycastEvents_VR : MonoBehaviour
 {
-    public int rayLength = 15;
+    public GameObject raySource;  // The object emitting the ray (e.g., Main Camera)
+    public int rayLength = 15;    // Length of the ray
+    public LayerMask layerMaskInteract; // Assign appropriate layers to avoid false hits
+    public float gazeExitBufferTime = 0.2f;  // Time to wait before triggering GazeExit
 
-    public InputActionReference GazeSelect_ActionMap;
+    public Animator animator; // Reference to the Animator component
+    public string[] triggersToReset; // List of triggers to reset after gaze cycle
+    public string conditionalTrigger; // The trigger that, when invoked, will reset the other triggers
 
     private bool isGazed = false;
-    private bool doOnce = false;
-    private bool wasclickedfirsttime = false;
-    private bool SelectButtonIsPressed = false;
+    private float exitTimer = 0f;
 
     public UnityEvent GazeEnter;
     public UnityEvent GazeExit;
-    public UnityEvent ControllerClicked1;
-    public UnityEvent ControllerClicked2;
 
-    public void OnToggle(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (context.started)
-        {
-            SelectButtonIsPressed = false;
-        }
-        if (context.performed)
-        {
-            SelectButtonIsPressed = !SelectButtonIsPressed;
-            if (SelectButtonIsPressed == true && isGazed == true && wasclickedfirsttime == false)
-            {
-                ControllerClicked1.Invoke();
-                wasclickedfirsttime = true;
-                return;
-            }
-            if (SelectButtonIsPressed == true && isGazed == true && wasclickedfirsttime == true)
-            {
-                ControllerClicked2.Invoke();
-                wasclickedfirsttime = false;
-                return;
-            }
-        }
-        if (context.canceled)
-        {
-            SelectButtonIsPressed = false;
-        }
-    }
-
-    private void LateUpdate()
-    {
-        Vector3 direction = Camera.main.transform.TransformDirection(Vector3.forward);
+        // Create a forward direction based on the ray source's transform
+        Vector3 direction = raySource.transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, rayLength))
+        Debug.DrawRay(raySource.transform.position, direction * rayLength, Color.red);
+
+        // Cast a ray from the ray source
+        if (Physics.Raycast(raySource.transform.position, direction, out hit, rayLength, layerMaskInteract))
         {
-            GameObject obj = this.gameObject;
-            if (hit.collider.gameObject == obj)
+            if (hit.collider.gameObject == this.gameObject)
             {
-                if (doOnce == false && isGazed == false)
+                if (!isGazed)
                 {
+                    // The first time the ray hits the object, invoke GazeEnter
+                    Debug.Log("Gaze Enter: " + this.gameObject.name);
                     GazeEnter.Invoke();
                     isGazed = true;
-                    doOnce = true;
-                    GazeSelect_ActionMap.action.started += OnToggle;
-                    GazeSelect_ActionMap.action.performed += OnToggle;
-                    GazeSelect_ActionMap.action.canceled += OnToggle;
+                    exitTimer = 0f;  // Reset the exit timer
+                }
+                else
+                {
+                    // Reset the exit timer if still gazing at the object
+                    exitTimer = 0f;
                 }
             }
-
             else
             {
-                if (doOnce == true && isGazed == true)
+                // If the ray was previously hitting the object but no longer is, start the exit timer
+                exitTimer += Time.deltaTime;
+                if (exitTimer >= gazeExitBufferTime)
                 {
-                    GazeExit.Invoke();
-                    isGazed = false;
-                    doOnce = false;
-                    GazeSelect_ActionMap.action.started -= OnToggle;
-                    GazeSelect_ActionMap.action.performed -= OnToggle;
-                    GazeSelect_ActionMap.action.canceled -= OnToggle;
+                    HandleGazeExit();
                 }
             }
-        }        
+        }
+        else
+        {
+            // If the ray was previously hitting the object but no longer is, start the exit timer
+            exitTimer += Time.deltaTime;
+            if (exitTimer >= gazeExitBufferTime)
+            {
+                HandleGazeExit();
+            }
+        }
+    }
+
+    private void HandleGazeExit()
+    {
+        if (isGazed)
+        {
+            // Gaze has truly exited, invoke the GazeExit event
+            Debug.Log("Gaze Exit: " + this.gameObject.name);
+            GazeExit.Invoke();
+            isGazed = false;
+        }
+    }
+
+    // Public method to invoke the conditional trigger and reset the hover triggers
+    public void InvokeConditionalTriggerAndReset()
+    {
+        Debug.Log("Conditional Trigger Invoked: " + conditionalTrigger);
+        animator.SetTrigger(conditionalTrigger); // Invoke the conditional trigger
+
+        ResetHoverTriggers(); // Reset the other triggers after invoking the conditional trigger
+    }
+
+    // Private method to reset the triggers after the conditional trigger is invoked
+    private void ResetHoverTriggers()
+    {
+        Debug.Log("Resetting triggers");
+        foreach (string trigger in triggersToReset)
+        {
+            animator.ResetTrigger(trigger);
+        }
     }
 }
-

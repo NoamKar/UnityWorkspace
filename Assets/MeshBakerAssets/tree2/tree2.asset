@@ -15,14 +15,14 @@ MonoBehaviour:
   version: 3252
   resultType: 0
   materialsAndUVRects:
-  - material: {fileID: 2100000, guid: f99a16aae28f6984caef3e69c43c2ff3, type: 2}
+  - material: {fileID: 2100000, guid: 046ece143a6b70b43ad678f71690dcbe, type: 2}
     atlasRect:
       serializedVersion: 2
       x: 0.0009765625
       y: 0.0009765625
-      width: 0.49804688
-      height: 0.9980469
-    srcObjName: pine_sapling_medium_b.001
+      width: 0.9980469
+      height: 0.19433594
+    srcObjName: jacaranda_tree_branches
     textureArraySliceIdx: -1
     allPropsUseSameTiling: 1
     allPropsUseSameTiling_sourceMaterialTiling:
@@ -44,14 +44,14 @@ MonoBehaviour:
       width: 0
       height: 0
     tilingTreatment: 0
-  - material: {fileID: 2100000, guid: 440c697da0ca92d45acdb2982323d8b6, type: 2}
+  - material: {fileID: 2100000, guid: 8b09837bf3403954eabb3459d4b8a9df, type: 2}
     atlasRect:
       serializedVersion: 2
       x: 0.0009765625
-      y: 0.0009765625
-      width: 0.49804688
-      height: 0.9980469
-    srcObjName: pine_sapling_medium_b.001
+      y: 0.19726562
+      width: 0.9980469
+      height: 0.3017578
+    srcObjName: jacaranda_tree_leaves_a
     textureArraySliceIdx: -1
     allPropsUseSameTiling: 1
     allPropsUseSameTiling_sourceMaterialTiling:
@@ -73,14 +73,43 @@ MonoBehaviour:
       width: 0
       height: 0
     tilingTreatment: 0
-  - material: {fileID: 2100000, guid: 287b21ea50028b842b83e6219c0c0413, type: 2}
+  - material: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     atlasRect:
       serializedVersion: 2
-      x: 0.50097656
-      y: 0.0009765625
-      width: 0.49804688
-      height: 0.9980469
-    srcObjName: pine_sapling_medium_b.002
+      x: 0.0009765625
+      y: 0.50097656
+      width: 0.9980469
+      height: 0.19433594
+    srcObjName: jacaranda_tree_trunk
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: d944f1805b190944b95dbe2416a20b75, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.6972656
+      width: 0.9980469
+      height: 0.3017578
+    srcObjName: jacaranda_tree_trunk.001
     textureArraySliceIdx: -1
     allPropsUseSameTiling: 1
     allPropsUseSameTiling_sourceMaterialTiling:
@@ -103,11 +132,12 @@ MonoBehaviour:
       height: 0
     tilingTreatment: 0
   resultMaterials:
-  - combinedMaterial: {fileID: 2100000, guid: 1b0387ef982f1a94889ea4fecb5e175a, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: 046ece143a6b70b43ad678f71690dcbe, type: 2}
     considerMeshUVs: 0
     sourceMaterials:
-    - {fileID: 2100000, guid: f99a16aae28f6984caef3e69c43c2ff3, type: 2}
-    - {fileID: 2100000, guid: 440c697da0ca92d45acdb2982323d8b6, type: 2}
-    - {fileID: 2100000, guid: 287b21ea50028b842b83e6219c0c0413, type: 2}
+    - {fileID: 2100000, guid: 046ece143a6b70b43ad678f71690dcbe, type: 2}
+    - {fileID: 2100000, guid: 8b09837bf3403954eabb3459d4b8a9df, type: 2}
+    - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - {fileID: 2100000, guid: d944f1805b190944b95dbe2416a20b75, type: 2}
   resultMaterialsTexArray: []
   doMultiMaterial: 0

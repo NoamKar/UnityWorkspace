@@ -5,48 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 0
-    path: Assets/Scenes/Scene04_001.unity
-    guid: a1a3e485e2d9bb64089c7ac18c961456
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_007.unity
-    guid: ead29894a17eb1840b57e754761c69d6
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_008.unity
-    guid: 6cb3b5fd065469e4bbae214d5d906fe3
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_009.unity
-    guid: 9dbca9ac88a120c4b8ebef91b36f4c66
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_011.unity
-    guid: 2e3c5b4f3a2b6fd47b5ab0da06946bf8
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_013.unity
-    guid: f1235961c728a8844bdeb3592cd2b9d0
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_015.unity
-    guid: a570a33cc626dff4e92e075a57fc43f8
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_015test.unity
-    guid: 5fb3fc02ea1082a4f89479083bcf23a5
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_016.unity
-    guid: bd74031f7e345e3449ac983161e72650
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_016test.unity
-    guid: ee96eb5698471a64b831714b2deefc28
-  - enabled: 0
-    path: Assets/Scenes/SceneTestDrive_017.unity
-    guid: 2edc3a2640e351c49993dddc5ce67c49
-  - enabled: 0
-    path: Assets/Scenes/Scene03_011.unity
-    guid: 3afa3b71aebbcda46af7c1ff3b8a99fb
   - enabled: 1
-    path: Assets/Scenes/Scene03_014.unity
-    guid: da8c1ed136e1a304e87a80bac599dc67
+    path: Assets/Scenes/Scene03+04_018.unity
+    guid: 20a48364ef25c86469678161f3d728a8
+  - enabled: 1
+    path: Assets/Scenes/Scene05_001.unity
+    guid: f0ced2d8ed9f5264cb6e090ccf0e300f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 37ac2e68cf88a904683e0df9cb59b6da, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 57a2ddffbc1fdfb4e96b08bb19cdac97, type: 2}

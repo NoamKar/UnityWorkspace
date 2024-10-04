@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7476268138901217005}
   - component: {fileID: 5962015637995960047}
   - component: {fileID: 1688340465458242755}
+  - component: {fileID: 8988522752723133895}
+  - component: {fileID: 7611615898391194747}
   m_Layer: 0
   m_Name: rock1
   m_TagString: Untagged
@@ -26,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024180517515746422}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.44330594, z: 0, w: 0.8963704}
   m_LocalPosition: {x: 0.16280207, y: -0.14111644, z: 0.13727322}
   m_LocalScale: {x: 1.1627908, y: 1.1627908, z: 1.1627908}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8735768539446853054}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -52.63, z: 0}
 --- !u!33 &5962015637995960047
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 709faa4944c86404ea20475ce77d2863, type: 2}
+  - {fileID: 2100000, guid: 276bde5ed9c9e1440a3965c524d2c6b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +85,45 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8988522752723133895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024180517515746422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b04ccc63cdd0a4abfa6328abadae5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smudgeMaterials:
+  - {fileID: 2100000, guid: 276bde5ed9c9e1440a3965c524d2c6b4, type: 2}
+  smudgeDuration: 10
+  finalFadeDuration: 2
+--- !u!136 &7611615898391194747
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024180517515746422}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.615925
+  m_Height: 2.6907637
+  m_Direction: 1
+  m_Center: {x: -0.18783553, y: 0.37736753, z: 0.15650027}
 --- !u!1001 &9129102446730041941
 PrefabInstance:
   m_ObjectHideFlags: 0

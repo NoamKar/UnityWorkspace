@@ -1,10 +1,11 @@
-Shader "Custom/SmudgeShader"
+Shader "Custom/SmudgeShader_Extended"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Transparency ("Transparency", Range(0, 1)) = 1.0
         _SmudgeAmount ("Smudge Amount", Range(0, 1)) = 0.0
+        _SmudgeOffset ("Smudge Offset", Range(0, 1)) = 0.2 // Controls how far the smudge extends
     }
     SubShader
     {
@@ -25,6 +26,7 @@ Shader "Custom/SmudgeShader"
             sampler2D _MainTex;
             float _Transparency;
             float _SmudgeAmount;
+            float _SmudgeOffset;  // New offset for extended smudging
 
             struct appdata
             {
@@ -43,8 +45,8 @@ Shader "Custom/SmudgeShader"
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
 
-                // Adjust the UV based on the smudge amount (for a downward smudge)
-                o.uv = v.uv + float2(0, _SmudgeAmount * v.uv.y);
+                // Adjust the UV based on the smudge amount and extend it outside the object
+                o.uv = v.uv + float2(0, _SmudgeAmount * (v.uv.y + _SmudgeOffset));
 
                 return o;
             }

@@ -3,77 +3,79 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public float moveSpeed = 0.4f;           // Speed at which the camera moves forward
-    public float turnSpeed = 10f;          // Speed of the turn (degrees per second)
-    public float turnDuration = 5f;        // Duration of the turn in seconds
-    public float turnRadius = 10f;         // Radius of the turn (how wide the turn is)
-    public float finalYRotation = 50f;     // The final Y rotation angle after the turn
-    public bool affectXAxis = false;        // Whether to affect movement on the X-axis
-    public bool affectZAxis = true;        // Whether to affect movement on the Z-axis
+    public float moveSpeed = 5f;           // Speed at which the camera moves forward
+    public float turnSpeed = 1f;           // Speed of the turn
+    public float turnRadius = 10f;         // The radius of the turning curve
+    public float finalYRotation = 90f;     // The final Y rotation angle after the turn
+    public float turnDuration = 2f;        // Duration of the turn (in seconds)
+    public AnimationCurve turnEase;        // Curve to ease the turn for smoothness
 
     private bool isTurning = false;        // Is the camera currently turning?
     private Vector3 turnCenter;            // The center point of the turning arc
-    private float turnStartTime;           // Time when the turn started
-    private Vector3 originalPosition;      // Store the original position before the turn
-    private Quaternion originalRotation;   // Store the original rotation before the turn
+    private Quaternion startRotation;      // Starting rotation before the turn
+    private float elapsedTime = 0f;        // Timer to track the turn progress
+    private Vector3 startPosition;         // Starting position of the turn
+    private Quaternion finalRotation;      // Final rotation after the turn
+
+    void Start()
+    {
+        // Ensure the easing curve is assigned
+        if (turnEase == null)
+        {
+            turnEase = AnimationCurve.EaseInOut(0, 0, 1, 1); // Default ease-in-out curve
+        }
+    }
 
     void Update()
     {
-        if (isTurning)
+        if (!isTurning)
+        {
+            // Continue moving forward if not turning
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        }
+        else
         {
             // Calculate how much time has passed since the turn started
-            float timeSinceTurnStart = Time.time - turnStartTime;
+            elapsedTime += Time.deltaTime;
+            float turnFraction = Mathf.Clamp01(elapsedTime / turnDuration);
 
-            // Calculate the fraction of the turn duration that has been completed
-            float turnFraction = Mathf.Clamp01(timeSinceTurnStart / turnDuration);
+            // Smoothly interpolate using the easing curve
+            float easedTurnFraction = turnEase.Evaluate(turnFraction);
 
-            // Calculate the angle we should have turned based on the turnFraction and finalYRotation
-            float angleThisFrame = Mathf.Lerp(0f, finalYRotation, turnFraction);
+            // Calculate the position along the curve (arc) during the turn
+            Vector3 currentPosition = Vector3.Lerp(startPosition, turnCenter, easedTurnFraction);
+            transform.position = currentPosition;
 
-            // Calculate the offset for the position (circular turn)
-            Vector3 offset = new Vector3(
-                affectXAxis ? Mathf.Sin(Mathf.Deg2Rad * angleThisFrame) * turnRadius : 0,
-                0,
-                affectZAxis ? Mathf.Cos(Mathf.Deg2Rad * angleThisFrame) * turnRadius : 0
-            );
+            // Interpolate the rotation for a smooth turn
+            transform.rotation = Quaternion.Slerp(startRotation, finalRotation, easedTurnFraction);
 
-            // Update the position along the chosen axes
-            transform.position = turnCenter - offset;
-
-            // Update the rotation to smoothly turn
-            transform.rotation = Quaternion.Slerp(originalRotation, Quaternion.Euler(0f, finalYRotation, 0f), turnFraction);
-
-            // Check if the turn has completed
+            // Stop turning once the full turn is complete
             if (turnFraction >= 1f)
             {
                 isTurning = false;
                 Debug.Log("Turn complete.");
             }
         }
-        else
-        {
-            // Continue forward movement if not turning
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-        }
     }
 
-    // Method to trigger the right turn
+    // Method to trigger a smooth right turn
     public void TriggerTurnRight()
     {
         if (!isTurning)
         {
-            // Save the original position and rotation
-            originalPosition = transform.position;
-            originalRotation = transform.rotation;
+            // Store initial position and rotation
+            startPosition = transform.position;
+            startRotation = transform.rotation;
 
-            // Calculate the center of the turning arc (based on whether X or Z axis is affected)
-            turnCenter = originalPosition - (affectXAxis ? transform.right : Vector3.zero) * turnRadius;
+            // Calculate the center of the turning arc based on turn radius
+            turnCenter = startPosition + transform.right * turnRadius;
 
-            // Set the start time of the turn
-            turnStartTime = Time.time;
+            // Set the final rotation (Y-axis turn)
+            finalRotation = Quaternion.Euler(0f, finalYRotation, 0f);
 
-            // Start turning
+            // Start the turning process
             isTurning = true;
+            elapsedTime = 0f;  // Reset elapsed time for smooth turn
             Debug.Log("Turn triggered.");
         }
     }

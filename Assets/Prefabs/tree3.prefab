@@ -133,3 +133,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b0837a0f95fa9a346b5433bffa94009e, type: 2}
   smudgeDuration: 10
   finalFadeDuration: 2
+  smudgeDirection: {x: 0, y: 1}

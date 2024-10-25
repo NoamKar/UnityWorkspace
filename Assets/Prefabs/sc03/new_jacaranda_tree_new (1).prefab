@@ -803,24 +803,24 @@ MonoBehaviour:
             mesh: {fileID: 0}
       redoOperations: []
     objectMeshPairs:
-      _Buckets: ffffffff00000000ffffffff
-      _HashCodes: 620602000000000000000000
-      _Next: ffffffff0000000000000000
-      _Count: 1
-      _Version: 1
+      _Buckets: 01000000ffffffff02000000
+      _HashCodes: 605619004e5619004a561900
+      _Next: ffffffff00000000ffffffff
+      _Count: 3
+      _Version: 3
       _FreeList: -1
       _FreeCount: 0
       _Keys:
       - {fileID: 7759045000168406602}
-      - {fileID: 0}
-      - {fileID: 0}
+      - {fileID: 5276053177025207326}
+      - {fileID: 5132048171153738189}
       _Values:
       - attachedToMeshFilter: 1
         mesh: {fileID: 4300000, guid: c750f803f5fa6a346b3d8e8975f5f382, type: 2}
-      - attachedToMeshFilter: 0
-        mesh: {fileID: 0}
-      - attachedToMeshFilter: 0
-        mesh: {fileID: 0}
+      - attachedToMeshFilter: 1
+        mesh: {fileID: 4300000, guid: 7c4cd09ff21bcbe48814bcba2504812a, type: 2}
+      - attachedToMeshFilter: 1
+        mesh: {fileID: 4300000, guid: 3f0f5c0b40cd4474080f4ec7b32e7f00, type: 2}
     currentLodLevelSettings:
     - reductionStrength: 0
       transitionHeight: 0.6
@@ -1041,15 +1041,15 @@ MonoBehaviour:
     oldSphereScale: {x: 0, y: 0, z: 0}
     reductionStrength: 0
     reductionPending: 0
-    prevFeasibleTarget: {fileID: 0}
-    runOnThreads: 0
+    prevFeasibleTarget: {fileID: 7759045000168406602}
+    runOnThreads: 1
     triangleCount: 370045
     lastDrawer: {fileID: 0}
     foldoutAutoLOD: 0
     foldoutBatchFew: 0
     foldoutAutoLODMultiple: 0
-    objPositionPrevFrame: {x: -57.448746, y: -2.0193374, z: -71.39789}
-    objScalePrevFrame: {x: 1, y: 1, z: 1}
+    objPositionPrevFrame: {x: -70.39973, y: -3.0157833, z: 273.52017}
+    objScalePrevFrame: {x: 1.2013377, y: 1, z: 0.9132203}
     considerChildrenBatchFew: 1
     autoLODSavePath: Assets/
     foldoutAdditionalOpts: 0
@@ -1079,11 +1079,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.549123
+  - screenRelativeHeight: 0.6997433
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4521405369609532558}
-  - screenRelativeHeight: 0.34732136
+  - screenRelativeHeight: 0.40030214
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3522406378782953500}

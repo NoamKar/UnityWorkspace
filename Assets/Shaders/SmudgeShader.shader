@@ -1,64 +1,64 @@
-Shader "Custom/SmudgeShader_Extended"
+Shader "Custom/SmudgeShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _Transparency ("Transparency", Range(0, 1)) = 1.0
-        _SmudgeAmount ("Smudge Amount", Range(0, 1)) = 0.0
-        _SmudgeOffset ("Smudge Offset", Range(0, 1)) = 0.2 // Controls how far the smudge extends
+        _MainTex("Texture", 2D) = "white" {}
+        _Transparency("Transparency", Range(0, 1)) = 1.0
+        _SmudgeAmount("Smudge Amount", Range(0, 1)) = 0.0
+        _SmudgeOffset("Smudge Offset", Range(0, 1)) = 0.2 // Controls how far the smudge extends
     }
-    SubShader
-    {
-        Tags { "Queue"="Transparent" }
-        LOD 200
-
-        Blend SrcAlpha OneMinusSrcAlpha
-        ZWrite Off
-        Cull Off
-
-        Pass
+        SubShader
         {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
+            Tags { "Queue" = "Transparent" }
+            LOD 200
 
-            sampler2D _MainTex;
-            float _Transparency;
-            float _SmudgeAmount;
-            float _SmudgeOffset;  // New offset for extended smudging
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            Cull Off
 
-            struct appdata
+            Pass
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
+                CGPROGRAM
+                #pragma vertex vert
+                #pragma fragment frag
+                #include "UnityCG.cginc"
 
-            struct v2f
-            {
-                float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
-            };
+                sampler2D _MainTex;
+                float _Transparency;
+                float _SmudgeAmount;
+                float _SmudgeOffset;  // New offset for extended smudging
 
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
+                struct appdata
+                {
+                    float4 vertex : POSITION;
+                    float2 uv : TEXCOORD0;
+                };
 
-                // Adjust the UV based on the smudge amount and extend it outside the object
-                o.uv = v.uv + float2(0, _SmudgeAmount * (v.uv.y + _SmudgeOffset));
+                struct v2f
+                {
+                    float4 pos : SV_POSITION;
+                    float2 uv : TEXCOORD0;
+                };
 
-                return o;
+                v2f vert(appdata v)
+                {
+                    v2f o;
+                    o.pos = UnityObjectToClipPos(v.vertex);
+
+                    // Adjust the UV based on the smudge amount and extend it outside the object
+                    o.uv = v.uv + float2(0, _SmudgeAmount * (v.uv.y + _SmudgeOffset));
+
+                    return o;
+                }
+
+                fixed4 frag(v2f i) : SV_Target
+                {
+                    // Get the base color and apply transparency
+                    fixed4 col = tex2D(_MainTex, i.uv);
+                    col.a *= _Transparency; // Apply transparency control
+                    return col;
+                }
+                ENDCG
             }
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // Get the base color and apply transparency
-                fixed4 col = tex2D(_MainTex, i.uv);
-                col.a *= _Transparency; // Apply transparency control
-                return col;
-            }
-            ENDCG
         }
-    }
 }

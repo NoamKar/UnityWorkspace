@@ -10,7 +10,7 @@ public class ObjectReveal : MonoBehaviour
 
     void OnEnable()
     {
-        // Get all the materials of the object
+        // Get all the materials of the object and its children recursively
         objectMaterials = GetMaterials(gameObject);
 
         // Set the initial transparency to 0 (fully transparent)
@@ -28,7 +28,7 @@ public class ObjectReveal : MonoBehaviour
             // Calculate the current alpha value based on elapsed time
             float alpha = Mathf.Lerp(0f, 1f, elapsedTime / revealDuration);
 
-            // Set the alpha value to gradually reveal the object
+            // Set the alpha value to gradually reveal the object and its children
             SetAlpha(objectMaterials, alpha);
 
             // Increment the elapsed time
@@ -42,14 +42,19 @@ public class ObjectReveal : MonoBehaviour
         }
     }
 
+    // This method now retrieves materials from the object and all of its children recursively
     private Material[] GetMaterials(GameObject obj)
     {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        Material[] materials = new Material[renderers.Length];
-        for (int i = 0; i < renderers.Length; i++)
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>(); // Get all renderers in the object and its children
+        Material[] materials = new Material[0];
+
+        foreach (Renderer renderer in renderers)
         {
-            materials[i] = renderers[i].material;
+            Material[] rendererMaterials = renderer.materials; // Get materials of each renderer
+            System.Array.Resize(ref materials, materials.Length + rendererMaterials.Length);
+            rendererMaterials.CopyTo(materials, materials.Length - rendererMaterials.Length);
         }
+
         return materials;
     }
 

@@ -6,6 +6,7 @@ public class SmudgeEffectController : MonoBehaviour
     public Material[] smudgeMaterials;  // Array of materials with the smudge shader
     public float smudgeDuration = 10f;   // Duration of the smudge effect
     public float finalFadeDuration = 2f; // Duration for the final fade out (0.8 to 0 transparency)
+    public Vector2 smudgeDirection = new Vector2(0, -1); // Default smudge direction (downwards)
 
     private float smudgeAmount = 0f;    // Current smudge progress
     private float transparency = 1f;    // Current transparency
@@ -94,6 +95,9 @@ public class SmudgeEffectController : MonoBehaviour
             smudgeAmount = 0f; // Reset smudge amount
             transparency = 1f; // Reset transparency to fully visible
             isFading = false; // Reset final fading state
+
+            // Apply the smudge direction
+            ApplySmudgeDirection();
         }
     }
 
@@ -117,6 +121,15 @@ public class SmudgeEffectController : MonoBehaviour
         {
             smudgeMaterial.SetFloat("_SmudgeAmount", smudgeAmount);
             smudgeMaterial.SetFloat("_Transparency", transparency);
+        }
+    }
+
+    // Apply the smudge direction to all materials
+    private void ApplySmudgeDirection()
+    {
+        foreach (Material smudgeMaterial in smudgeMaterials)
+        {
+            smudgeMaterial.SetVector("_SmudgeDirection", smudgeDirection);
         }
     }
 }

@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class SmudgeEffectController : MonoBehaviour
 {
-    public Material[] smudgeMaterials;  // Array of materials with the smudge shader
+    private Renderer[] renderers; // To hold all renderers in the hierarchy
+    private Material[] smudgeMaterials; // Array to store all material instances
+
     public float smudgeDuration = 10f;   // Duration of the smudge effect
     public float finalFadeDuration = 2f; // Duration for the final fade out (0.8 to 0 transparency)
     public Vector2 smudgeDirection = new Vector2(0, -1); // Default smudge direction (downwards)
 
     private float smudgeAmount = 0f;    // Current smudge progress
     private float transparency = 1f;    // Current transparency
+    private float smudgeOffset = 0f;    // Current smudge offset
     private bool isSmudging = false;    // Track if the smudge effect is running
     private bool smudgeComplete = false;// Track if the smudge effect is completed
     private float elapsedTime = 0f;     // Timer to track the smudge progress
@@ -17,11 +20,21 @@ public class SmudgeEffectController : MonoBehaviour
 
     void Start()
     {
-        // Ensure materials are assigned
-        if (smudgeMaterials.Length == 0)
+        // Get all renderers in the object and its children
+        renderers = GetComponentsInChildren<Renderer>();
+
+        // Initialize the smudgeMaterials array to hold all materials from all renderers
+        smudgeMaterials = new Material[GetTotalMaterialCount()];
+
+        int index = 0;
+        foreach (Renderer renderer in renderers)
         {
-            Debug.LogError("Smudge materials are not assigned.");
-            return;
+            // Get all materials in the current renderer and create instances
+            Material[] materials = renderer.materials;
+            for (int i = 0; i < materials.Length; i++)
+            {
+                smudgeMaterials[index++] = materials[i];
+            }
         }
 
         // Set initial values for transparency and smudge amount for all materials
@@ -38,9 +51,10 @@ public class SmudgeEffectController : MonoBehaviour
             // Calculate smudge and transparency during smudge process
             smudgeAmount = Mathf.Lerp(0f, 1f, elapsedTime / smudgeDuration);
             transparency = Mathf.Lerp(1f, 0.8f, elapsedTime / smudgeDuration);
+            smudgeOffset = Mathf.Lerp(0f, 1f, elapsedTime / smudgeDuration); // Adjust smudge offset
 
-            // Apply the smudge amount and transparency for all materials
-            ApplySmudgeAndTransparency();
+            // Apply the smudge amount, smudge offset, and transparency for all materials
+            ApplySmudgeProperties();
 
             // Once smudge is complete, start final fading
             if (smudgeAmount >= 1f && !isFading)
@@ -94,6 +108,7 @@ public class SmudgeEffectController : MonoBehaviour
             elapsedTime = 0f; // Reset timer
             smudgeAmount = 0f; // Reset smudge amount
             transparency = 1f; // Reset transparency to fully visible
+            smudgeOffset = 0f; // Reset smudge offset
             isFading = false; // Reset final fading state
 
             // Apply the smudge direction
@@ -106,21 +121,24 @@ public class SmudgeEffectController : MonoBehaviour
     {
         smudgeAmount = 0f;
         transparency = 1f;
+        smudgeOffset = 0f;
 
         foreach (Material smudgeMaterial in smudgeMaterials)
         {
             smudgeMaterial.SetFloat("_SmudgeAmount", smudgeAmount);
             smudgeMaterial.SetFloat("_Transparency", transparency);
+            smudgeMaterial.SetFloat("_SmudgeOffset", smudgeOffset);
         }
     }
 
     // Apply the current smudge and transparency values to the materials
-    private void ApplySmudgeAndTransparency()
+    private void ApplySmudgeProperties()
     {
         foreach (Material smudgeMaterial in smudgeMaterials)
         {
             smudgeMaterial.SetFloat("_SmudgeAmount", smudgeAmount);
             smudgeMaterial.SetFloat("_Transparency", transparency);
+            smudgeMaterial.SetFloat("_SmudgeOffset", smudgeOffset);
         }
     }
 
@@ -131,5 +149,16 @@ public class SmudgeEffectController : MonoBehaviour
         {
             smudgeMaterial.SetVector("_SmudgeDirection", smudgeDirection);
         }
+    }
+
+    // Helper method to count total materials in all renderers
+    private int GetTotalMaterialCount()
+    {
+        int count = 0;
+        foreach (Renderer renderer in renderers)
+        {
+            count += renderer.materials.Length;
+        }
+        return count;
     }
 }

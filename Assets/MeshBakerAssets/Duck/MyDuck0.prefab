@@ -53,8 +53,8 @@ MonoBehaviour:
       undoOperations: []
       redoOperations: []
     objectMeshPairs:
-      _Buckets: 01000000ffffffff02000000
-      _HashCodes: d4490800b4490800b0490800
+      _Buckets: ffffffff0200000001000000
+      _HashCodes: 3ccb08001ccb080018cb0800
       _Next: ffffffffffffffff00000000
       _Count: 3
       _Version: 3
@@ -298,7 +298,7 @@ MonoBehaviour:
     foldoutAutoLOD: 0
     foldoutBatchFew: 0
     foldoutAutoLODMultiple: 0
-    objPositionPrevFrame: {x: -54.62, y: -2, z: 168.37}
+    objPositionPrevFrame: {x: -135.4, y: -2, z: 186.1}
     objScalePrevFrame: {x: 120.00001, y: 120.000015, z: 120}
     considerChildrenBatchFew: 1
     autoLODSavePath: Assets/
@@ -337,7 +337,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3603718542582710937}
-  - screenRelativeHeight: 0.05
+  - screenRelativeHeight: 0
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7295073979333074871}

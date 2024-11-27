@@ -250,6 +250,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
   m_Name: ActivationPlayableAsset(Clone)(Clone)
   m_EditorClassIdentifier: 
+--- !u!114 &-7230135936446520850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: bf5957d875125384dbb2ee9e21f8a27f, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 0.329
 --- !u!114 &-7104070508798129685
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1758,10 +1775,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 8.099517939363942
+    m_Start: 6.116903770125155
     m_ClipIn: 0
     m_Asset: {fileID: 8160620744773450568}
-    m_Duration: 114.90071916409389
+    m_Duration: 116.88333333333267
     m_TimeScale: 1
     m_ParentTrack: {fileID: -1731382943110811970}
     m_EaseInDuration: 0
@@ -2074,10 +2091,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 203.6367293078918
-    m_ClipIn: 4.098459213366752
+    m_Start: 197.9
+    m_ClipIn: 0
     m_Asset: {fileID: -800237582195546970}
-    m_Duration: 46.94660402544153
+    m_Duration: 51.0450632388083
     m_TimeScale: 1
     m_ParentTrack: {fileID: -602359915111822694}
     m_EaseInDuration: 0
@@ -3544,10 +3561,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 203.6367293078918
-    m_ClipIn: 1.8117299054749338
+    m_Start: 200.23225178923448
+    m_ClipIn: 0
     m_Asset: {fileID: 7058903554922624924}
-    m_Duration: 46.94660402544153
+    m_Duration: 48.75833393091648
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5545135014903648347}
     m_EaseInDuration: 0
@@ -4347,13 +4364,13 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -8142561812924376356}
-    m_Duration: 36.0666666666667
+    m_Duration: 67.15017536167676
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8584945266915775621}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: -1
+    m_BlendOutDuration: 10.833508695010089
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -4375,6 +4392,40 @@ MonoBehaviour:
         weightedMode: 0
         inWeight: 0
         outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: y2mate.com - Cinematic Adventure Epic Podcast by Infraction No
+      Copyright Music  Storyteller
+  - m_Version: 1
+    m_Start: 56.31666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: -7230135936446520850}
+    m_Duration: 32.97564554841568
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8584945266915775621}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 10.833508695010089
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

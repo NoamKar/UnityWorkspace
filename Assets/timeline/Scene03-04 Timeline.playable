@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 110.74677083333333
+  m_Time: 107.6134375
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 5872c1e66de25994e935a2df277b22bf, type: 2}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 107.95884249119709
+  m_Time: 104.82550915786376
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 893af362960a088468b7a282d056afa1, type: 2}
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 107.5134375
+    m_Start: 104.38010416666667
     m_ClipIn: 0
     m_Asset: {fileID: -5368455843650176779}
     m_Duration: 54.8
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 101.08333333333333
+    m_Start: 97.95
     m_ClipIn: 0
     m_Asset: {fileID: -5849273411231952758}
     m_Duration: 17.786822858701157
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 115.16666666666667
+  m_Time: 112.03333333333335
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 76c3327e8dab491428f752a0ca28804f, type: 2}
@@ -768,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 116.83010416666666
+  m_Time: 113.69677083333333
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 450e7a05ee192b546a147172c3bf24b2, type: 2}
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 118.87015619203449
+  m_Time: 115.73682285870116
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: d1ab2670bad41084a97c22eda3b4af35, type: 2}
@@ -1227,7 +1227,25 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1266,7 +1284,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: sc03V3_240831
   - m_Version: 1
-    m_Start: 118.83333333333333
+    m_Start: 115.7
     m_ClipIn: 0.06317714129885132
     m_Asset: {fileID: -4524590099025342212}
     m_Duration: 6.303489525367815

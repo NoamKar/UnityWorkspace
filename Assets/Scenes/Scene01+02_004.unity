@@ -924,7 +924,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319036919}
-  - component: {fileID: 319036920}
   - component: {fileID: 319036921}
   m_Layer: 0
   m_Name: SceneLoader
@@ -948,20 +947,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &319036920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 319036918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fec7b3dafeef054bb07c9d1179c233a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextSceneName: Scene03+04_037
-  currentSceneName: Scene01+02_004
 --- !u!114 &319036921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -975,8 +960,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 978720893}
-  fadeDuration: 2
-  nextSceneName: Scene03+04_037
+  fadeDuration: 3
+  maxOpacity: 0.9
+  fadeDelay: 0.3
+  nextSceneName: Scene03+04_038
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &714583481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,14 +1367,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: e20c2399aa243b34aa7e36acc250c5b0, type: 2}
-  m_Color: {r: 1, g: 0.8901961, b: 0.69411767, a: 0}
+  m_Color: {r: 1, g: 0.9458152, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f8ef16ef7a1f0f845be3fc0b33b18c14, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1423,10 +1434,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 10369e196b0143a4fbabc239cf2f9d36, type: 2}
     - {fileID: 11400000, guid: 9f52753ed34ae654c83d580d5d7bf687, type: 2}
     - {fileID: 11400000, guid: 815b3d7b2340dee4693bf12a4f75eeb9, type: 2}
+    - {fileID: 11400000, guid: 25bd68697889be74eb656aa38b0dd6db, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 319036920}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SceneLoaderSimple, Assembly-CSharp
           m_MethodName: ActivateNextScene
           m_Mode: 1
@@ -1440,7 +1452,7 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 319036920}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SceneLoaderSimple, Assembly-CSharp
           m_MethodName: PreloadNextScene
           m_Mode: 1
@@ -1546,7 +1558,7 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 319036920}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SceneLoaderSimple, Assembly-CSharp
           m_MethodName: PreloadNextScene
           m_Mode: 1
@@ -1672,6 +1684,20 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 319036921}
+          m_TargetAssemblyTypeName: SceneTransitionDissolve, Assembly-CSharp
+          m_MethodName: PreloadNextScene
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Scene03+04_038
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!4 &1045298985
@@ -3278,7 +3304,7 @@ MonoBehaviour:
   colors:
   - {r: 0.023529412, g: 0.08235294, b: 0.18431373, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.8902697, b: 0.61132073, a: 1}
+  - {r: 0.9811321, g: 0.9256337, b: 0.7849056, a: 1}
   times:
   - 0
   - 40

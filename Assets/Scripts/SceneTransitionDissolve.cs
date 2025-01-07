@@ -6,12 +6,15 @@ using UnityEngine.UI;
 public class SceneTransitionDissolve : MonoBehaviour
 {
     public static SceneTransitionDissolve instance;  // Singleton instance
-    public Image fadeImage;                         // Fullscreen UI Image for fading
-    public float fadeDuration = 2f;                 // Duration of the fade
-    public string nextSceneName;                    // Name of the next scene to load
+    public Image fadeImage;                          // Fullscreen UI Image for fading
+    public float fadeDuration = 2f;                  // Duration of the fade
+    public float finalOpacity = 0.7f;                // Final opacity level (between 0 and 1)
+    public string nextSceneName;                     // Name of the next scene to load
+    public AnimationCurve fadeCurve =                // Curve for smoother fade
+        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    private AsyncOperation sceneLoadOperation;
-    private bool isFirstScene = true;               // Flag to skip fade-in for the first scene
+    private AsyncOperation sceneLoadOperation;       // Async operation for scene loading
+    private bool isScenePreloaded = false;           // Track if the scene is preloaded
 
     private void Awake()
     {
@@ -23,80 +26,58 @@ public class SceneTransitionDissolve : MonoBehaviour
         else
         {
             Destroy(gameObject);  // Destroy duplicates
+        }
+    }
+
+    // **Public method to preload the next scene**
+    public void PreloadNextScene(string sceneName = null)
+    {
+        if (isScenePreloaded)
+        {
+            Debug.LogWarning("Scene is already preloaded.");
             return;
         }
 
-        if (fadeImage == null)
+        if (!string.IsNullOrEmpty(sceneName))
         {
-            Debug.LogWarning("Fade Image is not assigned. Will attempt to find it in the scene.");
-        }
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;  // Add listener for when a new scene is loaded
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;  // Remove listener to avoid memory leaks
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (fadeImage == null)
-        {
-            fadeImage = FindObjectOfType<Image>();  // Dynamically find the UI Image after scene load
-            if (fadeImage != null)
-            {
-                Debug.Log("Fade Image found and assigned after scene load.");
-            }
-            else
-            {
-                Debug.LogError("No UI Image found in the scene.");
-                return;
-            }
+            nextSceneName = sceneName;
         }
 
-        if (isFirstScene)
-        {
-            // Skip the fade-in for the first scene
-            SetImageAlpha(fadeImage, 0f);  // Make the image fully transparent
-            isFirstScene = false;          // Ensure future scenes do not skip fade-in
-        }
-        else
-        {
-            // Automatically fade in for subsequent scenes
-            SetImageAlpha(fadeImage, 1f);  // Start fully opaque
-            StartCoroutine(FadeIn());      // Fade in the new scene
-        }
+        StartCoroutine(PreloadNextSceneCoroutine());
     }
 
+    // **Start the scene transition**
     public void StartSceneTransition()
     {
+        if (!isScenePreloaded)
+        {
+            Debug.LogError("Next scene not preloaded. Call PreloadNextScene() before transitioning.");
+            return;
+        }
+
         StartCoroutine(TransitionCoroutine());
     }
 
-    private IEnumerator TransitionCoroutine()
-    {
-        yield return StartCoroutine(PreloadNextScene());
-
-        yield return StartCoroutine(FadeOut());
-
-        sceneLoadOperation.allowSceneActivation = true;
-
-        yield return new WaitForSeconds(0.1f);  // Allow the next scene to load
-    }
-
-    private IEnumerator PreloadNextScene()
+    private IEnumerator PreloadNextSceneCoroutine()
     {
         sceneLoadOperation = SceneManager.LoadSceneAsync(nextSceneName);
-        sceneLoadOperation.allowSceneActivation = false;  // Preload without activation
+        sceneLoadOperation.allowSceneActivation = false;  // Preload without activating
         while (sceneLoadOperation.progress < 0.9f)
         {
             yield return null;
         }
-        Debug.Log("Next scene preloaded.");
+        isScenePreloaded = true;
+        Debug.Log($"Scene '{nextSceneName}' preloaded.");
+    }
+
+    private IEnumerator TransitionCoroutine()
+    {
+        yield return StartCoroutine(FadeOut());
+
+        // Activate the next scene after fade out
+        sceneLoadOperation.allowSceneActivation = true;
+
+        yield return null;  // Wait one frame
     }
 
     private IEnumerator FadeOut()
@@ -105,37 +86,24 @@ public class SceneTransitionDissolve : MonoBehaviour
 
         while (elapsedTime < fadeDuration)
         {
-            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-            SetImageAlpha(fadeImage, alpha);
+            float curveValue = fadeCurve.Evaluate(elapsedTime / fadeDuration);  // Smooth fade using curve
+            float alpha = Mathf.Lerp(0f, finalOpacity, curveValue);
+            SetImageAlpha(alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        SetImageAlpha(fadeImage, 1f);  // Fully opaque
+        // Ensure final opacity is applied
+        SetImageAlpha(finalOpacity);
     }
 
-    private IEnumerator FadeIn()
+    private void SetImageAlpha(float alpha)
     {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < fadeDuration)
+        if (fadeImage != null)
         {
-            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-            SetImageAlpha(fadeImage, alpha);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        SetImageAlpha(fadeImage, 0f);  // Fully transparent
-    }
-
-    private void SetImageAlpha(Image image, float alpha)
-    {
-        if (image != null)
-        {
-            Color color = image.color;
+            Color color = fadeImage.color;
             color.a = alpha;
-            image.color = color;
+            fadeImage.color = color;
         }
     }
 }

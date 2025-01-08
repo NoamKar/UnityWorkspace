@@ -12,11 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene03+04_039.unity
     guid: 2784c41051972a14b84d1aef30875f82
   - enabled: 1
-    path: Assets/Scenes/Scene04+05_010.unity
-    guid: 75d524335a33be74ebbe32a4e4175752
+    path: Assets/Scenes/Scene04+05_011.unity
+    guid: c198730e14b65514095d4d2f5c007eb5
   - enabled: 1
-    path: Assets/Scenes/Scene06+07_011.unity
-    guid: a68fb8df61bc65141baf0890ff3ea72d
+    path: Assets/Scenes/Scene06+07_012.unity
+    guid: cc82cc9ec254fac4693bd58d3f0838e7
   - enabled: 1
     path: Assets/Scenes/Scene08+09_007.unity
     guid: 2d0f908ddce85ae49b97758fd295cb30

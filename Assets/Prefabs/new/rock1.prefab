@@ -245,11 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b04ccc63cdd0a4abfa6328abadae5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smudgeMaterials:
-  - {fileID: 2100000, guid: 276bde5ed9c9e1440a3965c524d2c6b4, type: 2}
   smudgeDuration: 10
   finalFadeDuration: 2
-  smudgeDirection: {x: 0, y: -1}
+  smudgeDirection: {x: 0, y: -2}
 --- !u!136 &7611615898391194747
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -269,7 +267,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.615925
+  m_Radius: 3.4
   m_Height: 2.6907637
   m_Direction: 1
   m_Center: {x: -0.18783553, y: 0.37736753, z: 0.15650027}
@@ -768,8 +766,8 @@ MonoBehaviour:
       undoOperations: []
       redoOperations: []
     objectMeshPairs:
-      _Buckets: ffffffff1d0000000b000000220000001e00000004000000050000000000000013000000070000000e00000014000000020000001c000000200000001600000012000000ffffffff11000000150000001f00000021000000ffffffffffffffff0900000010000000ffffffff03000000ffffffffffffffff08000000190000000f0000001a00000018000000230000000d000000
-      _HashCodes: ac941f00ae941f00d6941f00c0941f00f4941f00d0941f00a4941f00f8941f00e8941f00e2941f00a2941f00cc941f000e951f00ee941f00d4941f00ea941f0008951f00dc941f00da941f00d2941f00b0941f0002951f00fe941f0004951f00ec941f00c4941f00c6941f00f0941f00b2941f00a6941f00ce941f00de941f00d8941f00ba941f00a8941f0012951f0000000000
+      _Buckets: 11000000150000001f00000021000000ffffffffffffffff0900000010000000ffffffff03000000ffffffffffffffff08000000190000000f0000001a00000018000000230000000d000000ffffffff1d0000000b000000220000001e00000004000000050000000000000013000000070000000e00000014000000020000001c000000200000001600000012000000ffffffff
+      _HashCodes: 681009006a100900921009007c100900b01009008c10090060100900b4100900a41009009e1009005e10090088100900ca100900aa10090090100900a6100900c410090098100900961009008e1009006c100900be100900ba100900c0100900a81009008010090082100900ac1009006e100900621009008a1009009a100900941009007610090064100900ce10090000000000
       _Next: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff01000000ffffffffffffffffffffffffffffffffffffffff06000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0a0000000c000000ffffffffffffffffffffffff1b000000ffffffffffffffffffffffff17000000ffffffffffffffff00000000
       _Count: 36
       _Version: 36
@@ -1115,7 +1113,7 @@ MonoBehaviour:
     foldoutAutoLOD: 0
     foldoutBatchFew: 0
     foldoutAutoLODMultiple: 0
-    objPositionPrevFrame: {x: 12.109996, y: -1.6493199, z: 19.952972}
+    objPositionPrevFrame: {x: 13.12, y: 7.28068, z: 95.63297}
     objScalePrevFrame: {x: 0.42999998, y: 0.42999998, z: 0.42999998}
     considerChildrenBatchFew: 1
     autoLODSavePath: Assets/

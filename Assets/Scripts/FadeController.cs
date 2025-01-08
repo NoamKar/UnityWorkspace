@@ -4,78 +4,92 @@ using UnityEngine;
 public class FadeController : MonoBehaviour
 {
     [Header("Objects to Fade")]
-    public GameObject model1; // First model to fade
-    public GameObject model2; // Second model to fade
+    public GameObject model1;  // First object to fade
+    public GameObject model2;  // Second object to fade
 
     [Header("Fade Settings")]
-    public float fadeDuration = 2f; // Duration for fading in/out
+    public float fadeDuration = 2f;  // Duration for fade-in/out
+    public string colorPropertyName = "_BaseColor";  // Shader property name for transparency
 
-    private Material model1Material;
-    private Material model2Material;
+    private Renderer[] model1Renderers;  // Array of renderers for model 1
+    private Renderer[] model2Renderers;  // Array of renderers for model 2
 
     private void Start()
     {
-        // Get the materials from the models
-        model1Material = GetMaterialFromObject(model1);
-        model2Material = GetMaterialFromObject(model2);
+        model1Renderers = GetRenderersFromObject(model1);
+        model2Renderers = GetRenderersFromObject(model2);
 
-        if (model1Material == null || model2Material == null)
+        if (model1Renderers.Length == 0 || model2Renderers.Length == 0)
         {
-            Debug.LogError("FadeController: One or more objects are missing a material with a '_Color' property.");
+            Debug.LogError("FadeController: One or more objects are missing Renderer components.");
         }
     }
 
-    // Function 1: Model 1 fades out, Model 2 fades in
+    // Function 1: Fade out model 1, fade in model 2
     public void FadeModel1OutModel2In()
     {
-        if (model1Material != null && model2Material != null)
+        if (model1Renderers.Length > 0 && model2Renderers.Length > 0)
         {
-            StartCoroutine(FadeObject(model1Material, 1f, 0f));
-            StartCoroutine(FadeObject(model2Material, 0f, 1f));
+            StartCoroutine(FadeOutAndDisable(model1, model1Renderers));
+            StartCoroutine(EnableAndFadeIn(model2, model2Renderers));
         }
     }
 
-    // Function 2: Model 2 fades out, Model 1 fades in
+    // Function 2: Fade out model 2, fade in model 1
     public void FadeModel2OutModel1In()
     {
-        if (model1Material != null && model2Material != null)
+        if (model1Renderers.Length > 0 && model2Renderers.Length > 0)
         {
-            StartCoroutine(FadeObject(model2Material, 1f, 0f));
-            StartCoroutine(FadeObject(model1Material, 0f, 1f));
+            StartCoroutine(FadeOutAndDisable(model2, model2Renderers));
+            StartCoroutine(EnableAndFadeIn(model1, model1Renderers));
         }
     }
 
-    private IEnumerator FadeObject(Material material, float startAlpha, float endAlpha)
+    private IEnumerator EnableAndFadeIn(GameObject obj, Renderer[] renderers)
+    {
+        obj.SetActive(true);  // Enable the GameObject before fade-in
+        yield return FadeObject(renderers, 0f, 1f);  // Fade in
+    }
+
+    private IEnumerator FadeOutAndDisable(GameObject obj, Renderer[] renderers)
+    {
+        yield return FadeObject(renderers, 1f, 0f);  // Fade out
+        obj.SetActive(false);  // Disable the GameObject after fade-out
+    }
+
+    private IEnumerator FadeObject(Renderer[] renderers, float startAlpha, float endAlpha)
     {
         float elapsedTime = 0f;
-        Color color = material.color;
-
-        // Set the initial alpha
-        color.a = startAlpha;
-        material.color = color;
 
         while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
             float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeDuration);
-            color.a = alpha;
-            material.color = color;
+            foreach (Renderer renderer in renderers)
+            {
+                MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(propertyBlock);
+                propertyBlock.SetColor(colorPropertyName, new Color(1f, 1f, 1f, alpha));
+                renderer.SetPropertyBlock(propertyBlock);
+            }
+
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure the final alpha is set
-        color.a = endAlpha;
-        material.color = color;
-
-        // Do not deactivate the object to allow repeated fading
+        foreach (Renderer renderer in renderers)
+        {
+            MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+            propertyBlock.SetColor(colorPropertyName, new Color(1f, 1f, 1f, endAlpha));
+            renderer.SetPropertyBlock(propertyBlock);
+        }
     }
 
-    private Material GetMaterialFromObject(GameObject obj)
+    private Renderer[] GetRenderersFromObject(GameObject obj)
     {
-        if (obj != null && obj.TryGetComponent<Renderer>(out Renderer renderer))
+        if (obj != null)
         {
-            return renderer.material;
+            return obj.GetComponentsInChildren<Renderer>();  // Get all Renderer components from object and its children
         }
-        return null;
+        return new Renderer[0];  // Return empty array if no renderers found
     }
 }

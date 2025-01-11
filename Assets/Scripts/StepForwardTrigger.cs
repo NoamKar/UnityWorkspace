@@ -3,7 +3,7 @@ using UnityEngine;
 public class StepOutTrigger : MonoBehaviour
 {
     public GameObject videoSphere;
-    private bool playerInside;
+    private bool playerInside = true;
 
     void Start()
     {

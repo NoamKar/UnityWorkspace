@@ -30,8 +30,8 @@ public class FadeController : MonoBehaviour
     {
         if (model1Renderers.Length > 0 && model2Renderers.Length > 0)
         {
-            StartCoroutine(FadeOutAndDisable(model1, model1Renderers));
-            StartCoroutine(EnableAndFadeIn(model2, model2Renderers));
+            StartCoroutine(FadeOutAndDisableMeshRenderers(model1Renderers));
+            StartCoroutine(EnableMeshRenderersAndFadeIn(model2Renderers));
         }
     }
 
@@ -40,21 +40,29 @@ public class FadeController : MonoBehaviour
     {
         if (model1Renderers.Length > 0 && model2Renderers.Length > 0)
         {
-            StartCoroutine(FadeOutAndDisable(model2, model2Renderers));
-            StartCoroutine(EnableAndFadeIn(model1, model1Renderers));
+            StartCoroutine(FadeOutAndDisableMeshRenderers(model2Renderers));
+            StartCoroutine(EnableMeshRenderersAndFadeIn(model1Renderers));
         }
     }
 
-    private IEnumerator EnableAndFadeIn(GameObject obj, Renderer[] renderers)
+    private IEnumerator EnableMeshRenderersAndFadeIn(Renderer[] renderers)
     {
-        obj.SetActive(true);  // Enable the GameObject before fade-in
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = true;  // Enable the MeshRenderer
+        }
+
         yield return FadeObject(renderers, 0f, 1f);  // Fade in
     }
 
-    private IEnumerator FadeOutAndDisable(GameObject obj, Renderer[] renderers)
+    private IEnumerator FadeOutAndDisableMeshRenderers(Renderer[] renderers)
     {
         yield return FadeObject(renderers, 1f, 0f);  // Fade out
-        obj.SetActive(false);  // Disable the GameObject after fade-out
+
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;  // Disable the MeshRenderer after fade-out
+        }
     }
 
     private IEnumerator FadeObject(Renderer[] renderers, float startAlpha, float endAlpha)

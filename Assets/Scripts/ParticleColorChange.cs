@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class ParticleColorChange : MonoBehaviour
 {
-    public Material targetMaterial;  // The material you want to modify
-    public Color[] colors;           // Array of colors to fade through
-    public float[] times;            // Array of times (in seconds) when each color change should start
-    public float fadeDuration = 2f;  // Duration of the fade
+    public ParticleSystem particleSystem;  // Assign the Particle System
+    public Color[] colors;                 // Array of colors to fade through
+    public float[] times;                  // Array of times (in seconds) when each color change should start
+    public float fadeDuration = 2f;         // Duration of the fade
     public Color defaultColor = Color.white;  // Default color to reset to after play mode
 
+    private Material targetMaterial;
     private int currentColorIndex = 0;
     private float elapsedTime = 0f;
     private Color startColor;
@@ -16,9 +17,19 @@ public class ParticleColorChange : MonoBehaviour
 
     void Start()
     {
+        if (particleSystem == null)
+        {
+            Debug.LogError("Particle System is not assigned.");
+            return;
+        }
+
+        // Get the runtime material of the particle system
+        ParticleSystemRenderer psRenderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+        targetMaterial = psRenderer.material;  // Access the instance material
+
         if (targetMaterial == null)
         {
-            Debug.LogError("Target Material is not assigned.");
+            Debug.LogError("Target Material could not be found on Particle System.");
             return;
         }
 
@@ -28,7 +39,6 @@ public class ParticleColorChange : MonoBehaviour
             return;
         }
 
-        // Get the initial color of the material
         if (targetMaterial.HasProperty("_BaseColor"))
         {
             startColor = targetMaterial.GetColor("_BaseColor");
@@ -53,7 +63,6 @@ public class ParticleColorChange : MonoBehaviour
         // Check if it's time to start fading to the next color
         if (currentColorIndex < times.Length && elapsedTime >= times[currentColorIndex])
         {
-            // Start the fade to the next color
             startColor = targetMaterial.GetColor("_BaseColor");
             targetColor = colors[currentColorIndex];
             isFading = true;
@@ -62,14 +71,12 @@ public class ParticleColorChange : MonoBehaviour
 
         if (isFading)
         {
-            // Calculate the interpolation factor
             float t = (elapsedTime - times[currentColorIndex - 1]) / fadeDuration;
             Color currentColor = Color.Lerp(startColor, targetColor, t);
 
-            // Apply the interpolated color to the material
+            // Apply the interpolated color to the material instance
             targetMaterial.SetColor("_BaseColor", currentColor);
 
-            // Stop fading once the duration has passed
             if (t >= 1f)
             {
                 isFading = false;
@@ -77,10 +84,8 @@ public class ParticleColorChange : MonoBehaviour
         }
     }
 
-    // This function is called when exiting play mode or when the script is disabled
     private void OnDisable()
     {
-        // Reset the material to the default color
         if (targetMaterial != null && targetMaterial.HasProperty("_BaseColor"))
         {
             targetMaterial.SetColor("_BaseColor", defaultColor);

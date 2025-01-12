@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07243735df73419438ee8438ee54d618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 6
+  fadeDuration: 5
 --- !u!114 &12686028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47520,7 +47520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fec7b3dafeef054bb07c9d1179c233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Scene08+09_008
+  nextSceneName: Scene08+09_009
   currentSceneName: Scene06+07_013
 --- !u!4 &1083277822
 Transform:
@@ -66956,7 +66956,7 @@ MonoBehaviour:
   colors:
   - {r: 0.0033621853, g: 0.023329942, b: 0.21383637, a: 1}
   - {r: 0.54088044, g: 0.50520027, b: 0.38269836, a: 1}
-  - {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
   times:
   - 0
   - 35
@@ -70056,6 +70056,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4c8c9387ae6baa147bfd95d4560c6092, type: 2}
     - {fileID: 11400000, guid: 06ebca96fcfb33345ace11435b24d091, type: 2}
     - {fileID: 11400000, guid: 4455ec0d95f93054dbf53e3ee387e38a, type: 2}
+    - {fileID: 11400000, guid: d69d37ee6e84a794f9b5a74ab04e0a63, type: 2}
+    - {fileID: 11400000, guid: 41af8dfcba279e6499a4b3d9ad09476f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -70265,13 +70267,13 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1930250772}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: 
+        - m_Target: {fileID: 1083277821}
+          m_TargetAssemblyTypeName: SceneLoaderSimple, Assembly-CSharp
+          m_MethodName: ActivateNextScene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -70304,6 +70306,34 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1083277821}
+          m_TargetAssemblyTypeName: SceneLoaderSimple, Assembly-CSharp
+          m_MethodName: PreloadNextScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 12686027}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!4 &1930250774
 Transform:

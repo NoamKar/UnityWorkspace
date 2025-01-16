@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 978720893}
-  fadeDuration: 4
+  fadeDuration: 2
   finalOpacity: 250
   nextSceneName: Scene03+04_039
   fadeCurve:

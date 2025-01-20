@@ -53,8 +53,8 @@ MonoBehaviour:
       undoOperations: []
       redoOperations: []
     objectMeshPairs:
-      _Buckets: ffffffff0200000001000000
-      _HashCodes: 3ccb08001ccb080018cb0800
+      _Buckets: 0200000001000000ffffffff
+      _HashCodes: 8ae520006ae5200066e52000
       _Next: ffffffffffffffff00000000
       _Count: 3
       _Version: 3
@@ -298,7 +298,7 @@ MonoBehaviour:
     foldoutAutoLOD: 0
     foldoutBatchFew: 0
     foldoutAutoLODMultiple: 0
-    objPositionPrevFrame: {x: -135.4, y: -2, z: 186.1}
+    objPositionPrevFrame: {x: -109.7, y: -2, z: 196.7}
     objScalePrevFrame: {x: 120.00001, y: 120.000015, z: 120}
     considerChildrenBatchFew: 1
     autoLODSavePath: Assets/
@@ -618,6 +618,7 @@ GameObject:
   - component: {fileID: 4581438046789554234}
   - component: {fileID: 7728858674422969720}
   - component: {fileID: 8894382068846487050}
+  - component: {fileID: 4045128894435272811}
   m_Layer: 0
   m_Name: MeshBaker (0)-mesh-mesh
   m_TagString: Untagged
@@ -691,3 +692,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4045128894435272811
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055231488316668019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.03297981, y: 0.06491308, z: 0.06321225}
+  m_Center: {x: 0.00013736267, y: -0.00048051216, z: 0.02611391}

@@ -67,7 +67,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 42f7ec972b6577e4ab1516924637a5f9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1aa9ceb30d9c46e4383ed771dd7f323a, type: 2}
+      objectReference: {fileID: 2100000, guid: 0016fbb5444bdeb499c25572f2d388a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 42f7ec972b6577e4ab1516924637a5f9, type: 3}
       propertyPath: m_Name
       value: 5
@@ -100,8 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b04ccc63cdd0a4abfa6328abadae5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smudgeMaterials:
-  - {fileID: 2100000, guid: 1aa9ceb30d9c46e4383ed771dd7f323a, type: 2}
   smudgeDuration: 10
   finalFadeDuration: 2
   smudgeDirection: {x: 0, y: -1}

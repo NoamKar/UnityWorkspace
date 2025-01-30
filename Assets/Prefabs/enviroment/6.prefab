@@ -100,8 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b04ccc63cdd0a4abfa6328abadae5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smudgeMaterials:
-  - {fileID: 2100000, guid: 461ab20dea2a2574cbb7fa8e7f576e2a, type: 2}
   smudgeDuration: 15
   finalFadeDuration: 2
   smudgeDirection: {x: 0, y: -1}

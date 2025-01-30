@@ -7,10 +7,11 @@ public class FinalGazeInteraction : MonoBehaviour
     public int rayLength = 15;          // Length of the ray
     public LayerMask layerMaskInteract; // Assign appropriate layers to avoid false hits
 
-    public UnityEvent GazeEnter;        // Event for actions on gaze enter
+    public UnityEvent GazeEnter;        // Event for actions on first gaze enter
     public UnityEvent GazeExit;         // Event for actions on gaze exit
 
     private bool isGazed = false;       // Whether the object is currently being gazed at
+    private bool hasGazedBefore = false; // Ensures GazeEnter only triggers once
 
     private void Update()
     {
@@ -30,8 +31,12 @@ public class FinalGazeInteraction : MonoBehaviour
                     Debug.Log("Gaze Enter: " + gameObject.name);
                     isGazed = true;
 
-                    // Trigger immediate gaze enter actions
-                    GazeEnter.Invoke();
+                    // Only invoke the event the first time the object is gazed at
+                    if (!hasGazedBefore)
+                    {
+                        GazeEnter.Invoke();
+                        hasGazedBefore = true; // Prevent re-triggering
+                    }
                 }
             }
             else
@@ -51,9 +56,7 @@ public class FinalGazeInteraction : MonoBehaviour
         {
             Debug.Log("Gaze Exit: " + gameObject.name);
             isGazed = false;
-
-            // Trigger gaze exit actions
-            GazeExit.Invoke();
+            GazeExit.Invoke(); // This still happens normally
         }
     }
 }

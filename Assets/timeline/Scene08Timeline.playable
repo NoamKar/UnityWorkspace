@@ -271,6 +271,22 @@ MonoBehaviour:
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 63e61f1f7f2d55d4e92b9cb3f88c35c8, type: 2}
+--- !u!114 &-4182105092631595286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 236.3
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 892236be6a555ee4b9a25fceefddda43, type: 2}
 --- !u!114 &-4109254444460639931
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,7 +302,7 @@ MonoBehaviour:
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
-  m_Muted: 0
+  m_Muted: 1
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
@@ -579,7 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 191.05
+  m_Time: 190.08333333333334
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: f41b7ce4660e0514481b99b35af1f50f, type: 2}
@@ -634,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 238.9
+  m_Time: 248.2
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: fac716a8f2fbc5643840ddac254d30b7, type: 2}
@@ -734,7 +750,7 @@ MonoBehaviour:
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
-  m_Muted: 0
+  m_Muted: 1
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
@@ -1000,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 146.05
+  m_Time: 148.35
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: c4677b522bea3fa49a7ba05366e4513b, type: 2}
@@ -1100,6 +1116,7 @@ MonoBehaviour:
     - {fileID: -1547466043495711004}
     - {fileID: -2404269558717601433}
     - {fileID: -2965020276159859286}
+    - {fileID: -4182105092631595286}
 --- !u!114 &8108854616632486888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1115,7 +1132,7 @@ MonoBehaviour:
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
-  m_Muted: 0
+  m_Muted: 1
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}

@@ -3,51 +3,54 @@ using UnityEngine.Events;
 
 public class ImmidiateGazeInteraction : MonoBehaviour
 {
-    public GameObject raySource;                // The object emitting the ray (e.g., Main Camera)
-    public int rayLength = 15;                  // Length of the ray
-    public LayerMask layerMaskInteract;         // Assign appropriate layers to avoid false hits
+    public GameObject raySource; // The object emitting the ray (e.g., Main Camera)
+    public int rayLength = 15; // Length of the ray
+    public LayerMask layerMaskInteract; // Assign appropriate layers to avoid false hits
 
-    public Animator animator;                   // Reference to the Animator component (optional)
-    public string triggerName;                  // Trigger to activate in the Animator
-    public float gazeTriggerTime = 1f;          // Time in seconds required to trigger the delayed response
+    public Animator animator; // Reference to the Animator component (optional)
+    public string triggerName; // Trigger to activate in the Animator
+    public float gazeTriggerTime = 1f; // Time in seconds required to trigger the delayed response
 
-    private bool isGazed = false;               // Whether the object is currently being gazed at
-    private float gazeTimer = 0f;               // Timer to track gaze duration
+    private bool isGazed = false; // Whether the object is currently being gazed at
+    private float gazeTimer = 0f; // Timer to track gaze duration
 
-    public UnityEvent GazeEnter;                // Event for immediate actions on gaze enter
-    public UnityEvent DelayedGazeResponse;      // Event for the delayed response
-    public UnityEvent GazeExit;                 // Event for additional actions on gaze exit
+    public UnityEvent GazeEnter; // Event for immediate actions on first gaze enter
+    public UnityEvent DelayedGazeResponse; // Event for the delayed response
+    public UnityEvent GazeExit; // Event for additional actions on gaze exit
 
+    private bool hasTriggeredGazeEnter = false; // Track if GazeEnter has triggered
     private bool delayedResponseTriggered = false; // Track if the delayed response has been triggered
 
     private void Update()
     {
-        // Create a forward direction based on the ray source's transform
         Vector3 direction = raySource.transform.forward;
         RaycastHit hit;
 
         Debug.DrawRay(raySource.transform.position, direction * rayLength, Color.red);
 
-        // Cast a ray from the ray source
         if (Physics.Raycast(raySource.transform.position, direction, out hit, rayLength, layerMaskInteract))
         {
             if (hit.collider.gameObject == gameObject)
             {
                 if (!isGazed)
                 {
-                    Debug.Log("Gaze Enter: " + gameObject.name);
                     isGazed = true;
-                    gazeTimer = 0f;  // Reset the timer on gaze enter
+                    gazeTimer = 0f; // Reset the timer
                     delayedResponseTriggered = false; // Reset delayed response flag
 
-                    // Trigger immediate gaze enter actions
-                    GazeEnter.Invoke();
+                    // **Trigger GazeEnter only if it has NOT been triggered before**
+                    if (!hasTriggeredGazeEnter)
+                    {
+                        Debug.Log("Gaze Enter (First Time): " + gameObject.name);
+                        GazeEnter.Invoke();
+                        hasTriggeredGazeEnter = true; // Mark as triggered
+                    }
                 }
 
                 // Increment gaze timer
                 gazeTimer += Time.deltaTime;
 
-                // Check if gaze duration requirement is met for the delayed response
+                // **Trigger delayed gaze response if the time condition is met**
                 if (gazeTimer >= gazeTriggerTime && !delayedResponseTriggered)
                 {
                     TriggerDelayedGazeResponse();
@@ -69,7 +72,7 @@ public class ImmidiateGazeInteraction : MonoBehaviour
         if (isGazed)
         {
             Debug.Log("Gaze Duration Met. Triggering delayed response on " + gameObject.name);
-            DelayedGazeResponse.Invoke();  // Invoke the delayed response
+            DelayedGazeResponse.Invoke();
             delayedResponseTriggered = true; // Mark as triggered
         }
     }
@@ -83,7 +86,7 @@ public class ImmidiateGazeInteraction : MonoBehaviour
             gazeTimer = 0f; // Reset the gaze timer
             delayedResponseTriggered = false; // Reset the delayed response flag
 
-            // Trigger gaze exit actions
+            // **Trigger GazeExit every time the player looks away**
             GazeExit.Invoke();
         }
     }

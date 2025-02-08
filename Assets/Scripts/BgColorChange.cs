@@ -13,6 +13,8 @@ public class BgColorChange : MonoBehaviour
     private Color targetColor;
     private bool isFading = false;
 
+    private Color originalColor; // Store the original color for reset
+
     void Start()
     {
         if (targetCamera == null)
@@ -25,6 +27,9 @@ public class BgColorChange : MonoBehaviour
             Debug.LogError("Colors and times arrays must be the same length.");
             return;
         }
+
+        // Save the original color to reset later
+        originalColor = targetCamera.backgroundColor;
 
         // Initialize with the first color
         if (colors.Length > 0)
@@ -60,5 +65,16 @@ public class BgColorChange : MonoBehaviour
                 isFading = false;
             }
         }
+    }
+
+    // ** Reset Background Color Change**
+    public void ResetBackgroundColor()
+    {
+        elapsedTime = 0f;         // Reset timer
+        currentColorIndex = 0;    // Reset index
+        isFading = false;         // Stop fading process
+        targetCamera.backgroundColor = originalColor; // Reset to the original background color
+
+        Debug.Log("Background color reset.");
     }
 }

@@ -13,8 +13,9 @@ public class SimpleGazeInteraction : MonoBehaviour
 
     private bool isGazed = false;               // Whether the object is currently being gazed at
     private float gazeTimer = 0f;               // Timer to track gaze duration
+    private bool hasTriggeredGazeEnter = false; // Ensure GazeEnter only happens once
 
-    public UnityEvent GazeEnter;                // Event for additional actions on gaze enter
+    public UnityEvent GazeEnter;                // Event for additional actions on gaze enter (once)
     public UnityEvent GazeExit;                 // Event for additional actions on gaze exit
 
     private void Update()
@@ -36,8 +37,12 @@ public class SimpleGazeInteraction : MonoBehaviour
                     isGazed = true;
                     gazeTimer = 0f;  // Reset the timer on gaze enter
 
-                    // Trigger immediate gaze enter actions
-                    GazeEnter.Invoke();
+                    // Only trigger GazeEnter **once** per object
+                    if (!hasTriggeredGazeEnter)
+                    {
+                        hasTriggeredGazeEnter = true;
+                        GazeEnter.Invoke();
+                    }
                 }
 
                 // Increment gaze timer
@@ -78,7 +83,7 @@ public class SimpleGazeInteraction : MonoBehaviour
             isGazed = false;
             gazeTimer = 0f; // Reset the gaze timer
 
-            // Trigger gaze exit actions
+            // **GazeExit will still trigger each time**
             GazeExit.Invoke();
         }
     }

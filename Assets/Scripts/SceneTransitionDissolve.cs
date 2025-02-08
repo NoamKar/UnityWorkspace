@@ -5,53 +5,53 @@ using UnityEngine.UI;
 
 public class SceneTransitionDissolve : MonoBehaviour
 {
-    public static SceneTransitionDissolve instance;  // Singleton instance
-    public Image fadeImage;                          // Fullscreen UI Image for fading
-    public float fadeDuration = 2f;                  // Duration of the fade
-    public float finalOpacity = 0.7f;                // Final opacity level (between 0 and 1)
-    public string nextSceneName;                     // Name of the next scene to load
-    public AnimationCurve fadeCurve =                // Curve for smoother fade
-        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    public static SceneTransitionDissolve instance;
+    public Image fadeImage;
+    public float fadeDuration = 2f;
+    public float finalOpacity = 0.7f;
+    public string nextSceneName;
+    public AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    private AsyncOperation sceneLoadOperation;       // Async operation for scene loading
-    private bool isScenePreloaded = false;           // Track if the scene is preloaded
+    private AsyncOperation sceneLoadOperation;
+    private bool isScenePreloaded = false;
+
+    public bool IsScenePreloaded => isScenePreloaded;
 
     private void Awake()
     {
+        // **Allow SceneTransitionDissolve to reset when scene changes**
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);  // Make this object persistent
         }
         else
         {
-            Destroy(gameObject);  // Destroy duplicates
+            Destroy(gameObject);
+            return;
         }
     }
 
-    // **Public method to preload the next scene**
     public void PreloadNextScene(string sceneName = null)
     {
-        if (isScenePreloaded)
-        {
-            Debug.LogWarning("Scene is already preloaded.");
-            return;
-        }
-
         if (!string.IsNullOrEmpty(sceneName))
         {
             nextSceneName = sceneName;
         }
 
-        StartCoroutine(PreloadNextSceneCoroutine());
-    }
-
-    // **Start the scene transition**
-    public void StartSceneTransition()
-    {
         if (!isScenePreloaded)
         {
-            Debug.LogError("Next scene not preloaded. Call PreloadNextScene() before transitioning.");
+            StartCoroutine(PreloadNextSceneCoroutine());
+        }
+    }
+
+    public void StartSceneTransition()
+    {
+        if (!isScenePreloaded || sceneLoadOperation == null)
+        {
+            Debug.LogWarning("[SceneTransition] Scene not preloaded correctly. Loading manually...");
+            SceneManager.LoadScene(nextSceneName);
             return;
         }
 
@@ -60,24 +60,34 @@ public class SceneTransitionDissolve : MonoBehaviour
 
     private IEnumerator PreloadNextSceneCoroutine()
     {
+        Debug.Log($"[SceneTransition] Preloading scene: {nextSceneName}");
         sceneLoadOperation = SceneManager.LoadSceneAsync(nextSceneName);
-        sceneLoadOperation.allowSceneActivation = false;  // Preload without activating
+        sceneLoadOperation.allowSceneActivation = false;
+
         while (sceneLoadOperation.progress < 0.9f)
         {
             yield return null;
         }
+
         isScenePreloaded = true;
-        Debug.Log($"Scene '{nextSceneName}' preloaded.");
+        Debug.Log($"[SceneTransition] Scene '{nextSceneName}' preloaded.");
     }
 
     private IEnumerator TransitionCoroutine()
     {
         yield return StartCoroutine(FadeOut());
 
-        // Activate the next scene after fade out
-        sceneLoadOperation.allowSceneActivation = true;
-
-        yield return null;  // Wait one frame
+        if (sceneLoadOperation != null)
+        {
+            Debug.Log("[SceneTransition] Activating preloaded scene.");
+            sceneLoadOperation.allowSceneActivation = true;
+            yield return sceneLoadOperation;
+        }
+        else
+        {
+            Debug.LogError("[SceneTransition] Scene load operation lost. Reloading manually.");
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 
     private IEnumerator FadeOut()
@@ -86,14 +96,13 @@ public class SceneTransitionDissolve : MonoBehaviour
 
         while (elapsedTime < fadeDuration)
         {
-            float curveValue = fadeCurve.Evaluate(elapsedTime / fadeDuration);  // Smooth fade using curve
+            float curveValue = fadeCurve.Evaluate(elapsedTime / fadeDuration);
             float alpha = Mathf.Lerp(0f, finalOpacity, curveValue);
             SetImageAlpha(alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure final opacity is applied
         SetImageAlpha(finalOpacity);
     }
 
@@ -105,5 +114,18 @@ public class SceneTransitionDissolve : MonoBehaviour
             color.a = alpha;
             fadeImage.color = color;
         }
+    }
+
+    public void ResetPreloadStatus()
+    {
+        Debug.Log("[SceneTransition] Resetting preload status.");
+        isScenePreloaded = false;
+        sceneLoadOperation = null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset preload status when a new scene is loaded
+        ResetPreloadStatus();
     }
 }

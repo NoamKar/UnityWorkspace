@@ -3,12 +3,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
 using UnityEngine.Video;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ExperienceManager : MonoBehaviour
 {
     public string firstSceneName = "Scene01"; // Set this to the name of your first scene
     public AudioSource backgroundAudio; // Persistent audio (Don't Destroy On Load)
     private bool isPaused = false; // Pause state tracking
+
+    private List<AudioSource> audioSourcesPlaying = new List<AudioSource>(); // Fix: Declare at the class level
+
 
     private void Awake()
     {
@@ -63,14 +67,13 @@ public class ExperienceManager : MonoBehaviour
             subtitleManager.ResetSubtitles();
         }
 
-        SceneTransitionDissolve sceneLoader = FindObjectOfType<SceneTransitionDissolve>();
-        if (sceneLoader != null)
-        {
-            sceneLoader.ResetPreloadStatus();  // Reset scene transition system
-        }
+        // **Ensure Scene Transition Manager exists after restart**
+        GameObject newTransitionManager = new GameObject("SceneTransitionManager");
+        newTransitionManager.AddComponent<SceneTransitionManager>();
 
         SceneManager.LoadScene(firstSceneName);
     }
+
 
     public void ExitExperience()
     {
@@ -91,22 +94,25 @@ public class ExperienceManager : MonoBehaviour
         {
             Time.timeScale = 0; // Pause game logic
 
-            // Pause background audio if it exists
-            if (backgroundAudio != null)
-            {
-                backgroundAudio.Pause();
-                Debug.Log("Background audio paused.");
-            }
+            // **Track which audio sources were playing**
+            audioSourcesPlaying.Clear(); // Reset list
 
-            // Pause ALL 3D AudioSources
             AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
             foreach (AudioSource audio in allAudioSources)
             {
-                if (audio != backgroundAudio) // Avoid pausing the persistent background audio again
+                if (audio.isPlaying) // **Only store active audio sources**
                 {
+                    audioSourcesPlaying.Add(audio);
                     audio.Pause();
                     Debug.Log($"Paused: {audio.gameObject.name}");
                 }
+            }
+
+            if (backgroundAudio != null && backgroundAudio.isPlaying)
+            {
+                backgroundAudio.Pause();
+                audioSourcesPlaying.Add(backgroundAudio); // Track it separately
+                Debug.Log("Background audio paused.");
             }
 
             // Pause Timeline
@@ -127,23 +133,16 @@ public class ExperienceManager : MonoBehaviour
         {
             Time.timeScale = 1; // Resume game logic
 
-            // Resume background audio if it exists
-            if (backgroundAudio != null)
+            // **Only resume audio sources that were playing before pause**
+            foreach (AudioSource audio in audioSourcesPlaying)
             {
-                backgroundAudio.Play();
-                Debug.Log("Background audio resumed.");
-            }
-
-            // Resume ALL 3D AudioSources
-            AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
-            foreach (AudioSource audio in allAudioSources)
-            {
-                if (audio != backgroundAudio) // Avoid resuming persistent background audio again
+                if (audio != null) // Ensure the object wasn't destroyed
                 {
                     audio.Play();
                     Debug.Log($"Resumed: {audio.gameObject.name}");
                 }
             }
+            audioSourcesPlaying.Clear(); // Clear the list
 
             // Resume Timeline
             PlayableDirector timeline = FindObjectOfType<PlayableDirector>();
@@ -160,6 +159,5 @@ public class ExperienceManager : MonoBehaviour
             Debug.Log("Experience Resumed.");
         }
     }
-
 
 }

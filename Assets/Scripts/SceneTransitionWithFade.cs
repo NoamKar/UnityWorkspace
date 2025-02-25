@@ -5,53 +5,60 @@ using UnityEngine.UI;
 
 public class SceneTransitionWithFade : MonoBehaviour
 {
-    public static SceneTransitionWithFade instance; // Singleton instance
+    public static SceneTransitionWithFade instance;
 
-    public Image fadeImage; // Assign a full-screen UI Image in the Canvas
+    public Image fadeImage;
     public float fadeDuration = 2f;
-    public string nextSceneName = "Scene01"; // Change to your scene name
+    public string nextSceneName = "Scene01";
 
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this object across scenes
+            DontDestroyOnLoad(gameObject); // Keep persistent during transition
         }
         else
         {
-            Destroy(gameObject); // Prevent duplicates
+            Destroy(gameObject); // Destroy duplicates
             return;
         }
     }
 
     private void Start()
     {
+        Debug.Log("[SceneTransition] Starting fade-in...");
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-            SetImageAlpha(1f);
+            SetImageAlpha(0f);
         }
 
-        StartCoroutine(PlayOpeningAndTransition());
+        StartCoroutine(TransitionSequence());
     }
 
-    private IEnumerator PlayOpeningAndTransition()
+    private IEnumerator TransitionSequence()
     {
         yield return new WaitForSeconds(1f); // Adjust for credits duration
 
         yield return StartCoroutine(FadeToBlack());
 
         SceneManager.LoadScene(nextSceneName);
-        yield return null; // Wait for scene load
+        yield return null;
 
+        AssignFadeImage(); // Reassign fadeImage in the new scene
         yield return StartCoroutine(FadeFromBlack());
 
-        DestroyCanvasAndSelf(); // Destroy transition manager and canvas
+        // **Remove persistence after transition completes**
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Destroy(gameObject);
     }
 
     private IEnumerator FadeToBlack()
     {
+        Debug.Log("[SceneTransition] Fading to black...");
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
@@ -61,10 +68,12 @@ public class SceneTransitionWithFade : MonoBehaviour
             yield return null;
         }
         SetImageAlpha(1f);
+        Debug.Log("[SceneTransition] Fade to black complete.");
     }
 
     private IEnumerator FadeFromBlack()
     {
+        Debug.Log("[SceneTransition] Fading from black...");
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
@@ -74,7 +83,9 @@ public class SceneTransitionWithFade : MonoBehaviour
             yield return null;
         }
         SetImageAlpha(0f);
-        fadeImage.gameObject.SetActive(false);
+        //fadeImage.gameObject.SetActive(false);
+        Debug.Log("[SceneTransition] Fade from black complete.");
+
     }
 
     private void SetImageAlpha(float alpha)
@@ -85,19 +96,31 @@ public class SceneTransitionWithFade : MonoBehaviour
             color.a = alpha;
             fadeImage.color = color;
         }
+        else
+        {
+            Debug.LogError("[SceneTransition] Fade Image is missing!");
+        }
     }
 
-    private void DestroyCanvasAndSelf()
+    private void AssignFadeImage()
     {
-        Debug.Log("[SceneTransition] Destroying transition UI...");
-
-        // Try to destroy the Canvas parent
-        if (fadeImage != null && fadeImage.transform.parent != null)
+        // **Find a new fadeImage in the newly loaded scene**
+        Image newFadeImage = FindObjectOfType<Image>();
+        if (newFadeImage != null)
         {
-            Destroy(fadeImage.transform.parent.gameObject); // Destroy the entire Canvas
+            fadeImage = newFadeImage;
+            Debug.Log("[SceneTransition] Found new fadeImage after scene load.");
         }
+        else
+        {
+            Debug.LogWarning("[SceneTransition] No fadeImage found after scene load.");
+        }
+    }
 
-        // Destroy this transition object
-        Destroy(gameObject);
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+
+            AssignFadeImage(); // Reassign fadeImage after restart
+        
     }
 }

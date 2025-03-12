@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PauseGazeInteraction : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class PauseGazeInteraction : MonoBehaviour
         FindVRCamera();
         FindAllRenderers();
         SceneManager.sceneLoaded += OnSceneLoaded; // Listen for scene changes
+        StartCoroutine(DelayedActivation());
     }
 
     private void OnDisable()
@@ -48,6 +50,18 @@ public class PauseGazeInteraction : MonoBehaviour
     {
         FindVRCamera();
         FindAllRenderers();
+        enabled = false;
+        enabled = true;
+        Debug.Log("PauseGazeInteraction reset for scene: " + scene.name);
+        StartCoroutine(DelayedActivation());
+    }
+
+    IEnumerator DelayedActivation()
+    {
+        yield return new WaitForSeconds(0.3f); // Adjust delay as needed
+        enabled = false;
+        enabled = true;
+        Debug.Log("PauseGazeInteraction activated after delay in " + SceneManager.GetActiveScene().name);
     }
 
     private void FindVRCamera()
